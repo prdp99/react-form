@@ -1,0 +1,25 @@
+{
+  "title": "Registration Form",
+  "description": "A simple form example.",
+  "type": "object",
+  "required": ["firstName", "lastName"],
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "title": "First name"
+    },
+    "lastName": {
+      "type": "string",
+      "title": "Last name"
+    },
+    "phone": {
+      "type": "integer",
+      "title": "Phone"
+    },
+    "gender": {
+      "title": "Gender",
+      "type": "array",
+      "enum": ["male", "female", "other"]
+    }
+  }
+}
