@@ -6,7 +6,7 @@ function Form() {
   const [user, setUser] = useState({});
   const [data, setData] = useState(formJson);
   const [formError, setFormError] = useState({});
-  const [isSubmut, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -24,7 +24,7 @@ function Form() {
   }
 
   useEffect(() => {
-    if (Object.keys(formError).length === 0 && isSubmut) {
+    if (Object.keys(formError).length === 0 && is) {
       //submit
     }
   }, [formError]);
@@ -117,7 +117,7 @@ function Form() {
     <>
       <form onSubmit={handleSubmit} className="login">
         <div className="success">
-          {Object.keys(formError).length === 0 && isSubmut ? (
+          {Object.keys(formError).length === 0 && isSubmit ? (
             <h2>Successfully Submitted</h2>
           ) : (
             ""
