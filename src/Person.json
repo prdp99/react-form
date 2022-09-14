@@ -2,19 +2,25 @@
   "title": "Registration Form",
   "description": "A simple form example.",
   "type": "object",
-  "required": ["firstName", "lastName"],
+  "required": ["firstName", "lastName", "gender", "phone"],
   "properties": {
     "firstName": {
       "type": "string",
-      "title": "First name"
+      "title": "First name",
+      "minLength": 3,
+      "maxLength": 20
     },
     "lastName": {
       "type": "string",
-      "title": "Last name"
+      "title": "Last name",
+      "minLength": 3,
+      "maxLength": 20
     },
     "phone": {
       "type": "integer",
-      "title": "Phone"
+      "title": "Phone",
+      "minLength": 10,
+      "maxLength": 14
     },
     "gender": {
       "title": "Gender",

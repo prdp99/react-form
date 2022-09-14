@@ -4,6 +4,11 @@ import "../index.css";
 function Form() {
   const [user, setUser] = useState({});
   const [data, setData] = useState(formJson);
+  const [error, setError] = useState({
+    isError: false,
+    element: "",
+    msg: "",
+  });
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -14,9 +19,30 @@ function Form() {
       };
     });
   }
+
   function handleSubmit(e) {
     e.preventDefault();
-    //Submitted
+    let maxLength;
+    let minLength;
+    let userLength;
+    Object.keys(data.properties).map((key) => {
+      maxLength = data.properties[key].maxLength;
+      minLength = data.properties[key].minLength;
+
+      if (maxLength && minLength) {
+        userLength = user[key].length;
+        if (userLength <= maxLength && userLength >= minLength) {
+          //submitted
+        } else {
+          //throw error
+          setError({
+            isError: true,
+            element: key,
+            msg: `length must be between  ${minLength} and ${maxLength}`,
+          });
+        }
+      }
+    });
   }
 
   function checkInput(type, key) {
@@ -53,6 +79,7 @@ function Form() {
     return (
       <div key={index} className="input">
         <label className="label">{data.properties[key].title}</label>
+
         {data.properties[key].enum ? (
           <select name={key} value={user[key] || ""} onChange={handleChange}>
             {select.map((data, i) => {
@@ -62,6 +89,9 @@ function Form() {
         ) : (
           checkInput(data.properties[key].type, key)
         )}
+        <span className="err">
+          {error.isError && error.element == key ? error.msg : ""}
+        </span>
       </div>
     );
   });
@@ -72,7 +102,6 @@ function Form() {
         <div className="header">{data.title}</div>
         {elements}
         <button className="submit-btn">Submit</button>
-        <div className="msg"></div>
       </form>
     </>
   );

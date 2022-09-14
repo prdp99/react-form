@@ -115,3 +115,9 @@ input[type="number"]::-webkit-outer-spin-button {
   color: white;
   margin-top: 1rem;
 }
+
+.err {
+  color: white;
+  padding: 0.3rem;
+  height: 1rem;
+}
