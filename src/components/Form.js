@@ -4,7 +4,6 @@ import "../index.css";
 function Form() {
   const [user, setUser] = useState({});
   const [data, setData] = useState(formJson);
-  const [isSubmitted, setSubmitted] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -17,7 +16,6 @@ function Form() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    setSubmitted(true);
     //Submitted
   }
 
@@ -54,7 +52,7 @@ function Form() {
     }
     return (
       <div key={index} className="input">
-        <label>{data.properties[key].title}</label>
+        <label className="label">{data.properties[key].title}</label>
         {data.properties[key].enum ? (
           <select name={key} value={user[key] || ""} onChange={handleChange}>
             {select.map((data, i) => {
@@ -70,16 +68,12 @@ function Form() {
 
   return (
     <>
-      <div className="container">
-        <div className="login">
-          <div className="header">{formJson.title}</div>
-          <form onSubmit={handleSubmit}>
-            {elements}
-            <button className="submit-btn">Submit</button>
-            <div className="msg">{isSubmitted && <p>*Submitted</p>}</div>
-          </form>
-        </div>
-      </div>
+      <form onSubmit={handleSubmit} className="login">
+        <div className="header">{data.title}</div>
+        {elements}
+        <button className="submit-btn">Submit</button>
+        <div className="msg"></div>
+      </form>
     </>
   );
 }
