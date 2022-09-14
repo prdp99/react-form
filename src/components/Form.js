@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import formJson from "../Person.json";
 import "../index.css";
+
 function Form() {
   const [user, setUser] = useState({});
   const [data, setData] = useState(formJson);
-  const [error, setError] = useState({
-    isError: false,
-    element: "",
-    msg: "",
-  });
+  const [formError, setFormError] = useState({});
+  const [isSubmut, setIsSubmit] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -19,9 +17,20 @@ function Form() {
       };
     });
   }
-
   function handleSubmit(e) {
     e.preventDefault();
+    setFormError(validate(user));
+    setIsSubmit(true);
+  }
+
+  useEffect(() => {
+    if (Object.keys(formError).length === 0 && isSubmut) {
+      //submit
+    }
+  }, [formError]);
+
+  const validate = (user) => {
+    const errors = {};
     let maxLength;
     let minLength;
     let userLength;
@@ -31,19 +40,26 @@ function Form() {
 
       if (maxLength && minLength) {
         userLength = user[key].length;
-        if (userLength <= maxLength && userLength >= minLength) {
-          //submitted
-        } else {
-          //throw error
-          setError({
-            isError: true,
-            element: key,
-            msg: `length must be between  ${minLength} and ${maxLength}`,
-          });
+        if (userLength == "") {
+          errors[key] = `${data.properties[key].title} should not be empty`;
+        } else if (userLength < minLength) {
+          errors[
+            key
+          ] = `${data.properties[key].title} length should not be less than ${minLength}`;
+        } else if (userLength > maxLength) {
+          errors[
+            key
+          ] = `${data.properties[key].title} length should not be greater than ${maxLength}`;
+        }
+      }
+      if (data.properties[key].enum) {
+        if (user[key] == "") {
+          errors[key] = `choose ${data.properties[key].title}`;
         }
       }
     });
-  }
+    return errors;
+  };
 
   function checkInput(type, key) {
     switch (type) {
@@ -54,7 +70,6 @@ function Form() {
             value={user[key] || ""}
             onChange={handleChange}
             type="text"
-            required
           />
         );
       case "integer":
@@ -65,7 +80,6 @@ function Form() {
             value={user[key] || ""}
             onChange={handleChange}
             type="number"
-            required
           />
         );
     }
@@ -81,17 +95,20 @@ function Form() {
         <label className="label">{data.properties[key].title}</label>
 
         {data.properties[key].enum ? (
-          <select name={key} value={user[key] || ""} onChange={handleChange}>
+          <select name={key} value={user[key]} onChange={handleChange}>
+            <option value="">Choose</option>
             {select.map((data, i) => {
-              return <option key={i}>{data}</option>;
+              return (
+                <option value={data} key={i}>
+                  {data}
+                </option>
+              );
             })}
           </select>
         ) : (
           checkInput(data.properties[key].type, key)
         )}
-        <span className="err">
-          {error.isError && error.element == key ? error.msg : ""}
-        </span>
+        <div className="err">{formError[key]}</div>
       </div>
     );
   });
@@ -99,6 +116,13 @@ function Form() {
   return (
     <>
       <form onSubmit={handleSubmit} className="login">
+        <div className="success">
+          {Object.keys(formError).length === 0 && isSubmut ? (
+            <h2>Successfully Submitted</h2>
+          ) : (
+            ""
+          )}
+        </div>
         <div className="header">{data.title}</div>
         {elements}
         <button className="submit-btn">Submit</button>
