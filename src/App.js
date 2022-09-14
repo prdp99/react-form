@@ -45,35 +45,6 @@ function App() {
             );
         }
       }
-      switch (type) {
-        case "string":
-          return (
-            <input
-              name={key}
-              value={user[key] || ""}
-              onChange={handleChange}
-              type="text"
-            />
-          );
-        case "number":
-          return (
-            <input
-              name={key}
-              value={user[key] || ""}
-              onChange={handleChange}
-              type="number"
-            />
-          );
-        case "integer":
-          return (
-            <input
-              name={key}
-              value={user[key] || ""}
-              onChange={handleChange}
-              type="number"
-            />
-          );
-      }
     });
 
     switch (type) {
