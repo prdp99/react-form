@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import formJson from "../Person.json";
 import "../index.css";
 function Form() {
@@ -33,7 +33,8 @@ function Form() {
             required
           />
         );
-      case "number" || "integer":
+      case "integer":
+      case "number":
         return (
           <input
             name={key}
