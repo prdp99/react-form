@@ -24,7 +24,7 @@ function Form() {
   }
 
   useEffect(() => {
-    if (Object.keys(formError).length === 0 && is) {
+    if (Object.keys(formError).length === 0 && isSubmit) {
       //submit
     }
   }, [formError]);
