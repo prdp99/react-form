@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import formJson from "../Person.json";
 import "../index.css";
 function Form() {
@@ -50,9 +50,8 @@ function Form() {
   const elements = Object.keys(data.properties).map((key, index) => {
     let select = [];
     if (data.properties[key].enum) {
-      select.push(data.properties[key].enum);
+      select = data.properties[key].enum;
     }
-    select = select.flat();
     return (
       <div key={index} className="input">
         <label>{data.properties[key].title}</label>
